@@ -14,3 +14,5 @@ fcm_service/vendor/src/git.apache.org/
 fcm_service/vendor/src/github.com/
 
 fcm_service/vendor/src/gopkg.in/
+
+fcm_service/vendor/src/golang.org/

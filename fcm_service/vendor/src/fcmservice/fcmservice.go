@@ -26,16 +26,16 @@ type FCMService interface {
 	// Parameters:
 	//  - Message
 	//  - DeviceToken
-	NotiToDeviceToken(message *TFCMMessage, deviceToken TDeviceToken) (r *TResponse, err error)
+	NotiToDeviceToken(message *TFCMMessage, deviceToken TDeviceToken) (err error)
 	// Parameters:
 	//  - Message
 	//  - Phone
-	NotiToPhone(message *TFCMMessage, phone string) (r *TResponse, err error)
+	NotiToPhone(message *TFCMMessage, phone string) (err error)
 	// Parameters:
 	//  - Topic
 	//  - Condition
 	//  - Message
-	NotiToTopic(topic string, condition string, message *TFCMMessage) (r *TResponse, err error)
+	NotiToTopic(topic string, condition string, message *TFCMMessage) (err error)
 }
 
 type FCMServiceClient struct {
@@ -225,7 +225,7 @@ func (p *FCMServiceClient) recvAddListDeviceToken() (value bool, err error) {
 // Parameters:
 //  - Message
 //  - DeviceToken
-func (p *FCMServiceClient) NotiToDeviceToken(message *TFCMMessage, deviceToken TDeviceToken) (r *TResponse, err error) {
+func (p *FCMServiceClient) NotiToDeviceToken(message *TFCMMessage, deviceToken TDeviceToken) (err error) {
 	if err = p.sendNotiToDeviceToken(message, deviceToken); err != nil {
 		return
 	}
@@ -255,7 +255,7 @@ func (p *FCMServiceClient) sendNotiToDeviceToken(message *TFCMMessage, deviceTok
 	return oprot.Flush()
 }
 
-func (p *FCMServiceClient) recvNotiToDeviceToken() (value *TResponse, err error) {
+func (p *FCMServiceClient) recvNotiToDeviceToken() (err error) {
 	iprot := p.InputProtocol
 	if iprot == nil {
 		iprot = p.ProtocolFactory.GetProtocol(p.Transport)
@@ -297,14 +297,13 @@ func (p *FCMServiceClient) recvNotiToDeviceToken() (value *TResponse, err error)
 	if err = iprot.ReadMessageEnd(); err != nil {
 		return
 	}
-	value = result.GetSuccess()
 	return
 }
 
 // Parameters:
 //  - Message
 //  - Phone
-func (p *FCMServiceClient) NotiToPhone(message *TFCMMessage, phone string) (r *TResponse, err error) {
+func (p *FCMServiceClient) NotiToPhone(message *TFCMMessage, phone string) (err error) {
 	if err = p.sendNotiToPhone(message, phone); err != nil {
 		return
 	}
@@ -334,7 +333,7 @@ func (p *FCMServiceClient) sendNotiToPhone(message *TFCMMessage, phone string) (
 	return oprot.Flush()
 }
 
-func (p *FCMServiceClient) recvNotiToPhone() (value *TResponse, err error) {
+func (p *FCMServiceClient) recvNotiToPhone() (err error) {
 	iprot := p.InputProtocol
 	if iprot == nil {
 		iprot = p.ProtocolFactory.GetProtocol(p.Transport)
@@ -376,7 +375,6 @@ func (p *FCMServiceClient) recvNotiToPhone() (value *TResponse, err error) {
 	if err = iprot.ReadMessageEnd(); err != nil {
 		return
 	}
-	value = result.GetSuccess()
 	return
 }
 
@@ -384,7 +382,7 @@ func (p *FCMServiceClient) recvNotiToPhone() (value *TResponse, err error) {
 //  - Topic
 //  - Condition
 //  - Message
-func (p *FCMServiceClient) NotiToTopic(topic string, condition string, message *TFCMMessage) (r *TResponse, err error) {
+func (p *FCMServiceClient) NotiToTopic(topic string, condition string, message *TFCMMessage) (err error) {
 	if err = p.sendNotiToTopic(topic, condition, message); err != nil {
 		return
 	}
@@ -415,7 +413,7 @@ func (p *FCMServiceClient) sendNotiToTopic(topic string, condition string, messa
 	return oprot.Flush()
 }
 
-func (p *FCMServiceClient) recvNotiToTopic() (value *TResponse, err error) {
+func (p *FCMServiceClient) recvNotiToTopic() (err error) {
 	iprot := p.InputProtocol
 	if iprot == nil {
 		iprot = p.ProtocolFactory.GetProtocol(p.Transport)
@@ -457,7 +455,6 @@ func (p *FCMServiceClient) recvNotiToTopic() (value *TResponse, err error) {
 	if err = iprot.ReadMessageEnd(); err != nil {
 		return
 	}
-	value = result.GetSuccess()
 	return
 }
 
@@ -623,17 +620,14 @@ func (p *fCMServiceProcessorNotiToDeviceToken) Process(seqId int32, iprot, oprot
 
 	iprot.ReadMessageEnd()
 	result := FCMServiceNotiToDeviceTokenResult{}
-	var retval *TResponse
 	var err2 error
-	if retval, err2 = p.handler.NotiToDeviceToken(args.Message, args.DeviceToken); err2 != nil {
+	if err2 = p.handler.NotiToDeviceToken(args.Message, args.DeviceToken); err2 != nil {
 		x := thrift.NewTApplicationException(thrift.INTERNAL_ERROR, "Internal error processing notiToDeviceToken: "+err2.Error())
 		oprot.WriteMessageBegin("notiToDeviceToken", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
 		oprot.Flush()
 		return true, err2
-	} else {
-		result.Success = retval
 	}
 	if err2 = oprot.WriteMessageBegin("notiToDeviceToken", thrift.REPLY, seqId); err2 != nil {
 		err = err2
@@ -671,17 +665,14 @@ func (p *fCMServiceProcessorNotiToPhone) Process(seqId int32, iprot, oprot thrif
 
 	iprot.ReadMessageEnd()
 	result := FCMServiceNotiToPhoneResult{}
-	var retval *TResponse
 	var err2 error
-	if retval, err2 = p.handler.NotiToPhone(args.Message, args.Phone); err2 != nil {
+	if err2 = p.handler.NotiToPhone(args.Message, args.Phone); err2 != nil {
 		x := thrift.NewTApplicationException(thrift.INTERNAL_ERROR, "Internal error processing notiToPhone: "+err2.Error())
 		oprot.WriteMessageBegin("notiToPhone", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
 		oprot.Flush()
 		return true, err2
-	} else {
-		result.Success = retval
 	}
 	if err2 = oprot.WriteMessageBegin("notiToPhone", thrift.REPLY, seqId); err2 != nil {
 		err = err2
@@ -719,17 +710,14 @@ func (p *fCMServiceProcessorNotiToTopic) Process(seqId int32, iprot, oprot thrif
 
 	iprot.ReadMessageEnd()
 	result := FCMServiceNotiToTopicResult{}
-	var retval *TResponse
 	var err2 error
-	if retval, err2 = p.handler.NotiToTopic(args.Topic, args.Condition, args.Message); err2 != nil {
+	if err2 = p.handler.NotiToTopic(args.Topic, args.Condition, args.Message); err2 != nil {
 		x := thrift.NewTApplicationException(thrift.INTERNAL_ERROR, "Internal error processing notiToTopic: "+err2.Error())
 		oprot.WriteMessageBegin("notiToTopic", thrift.EXCEPTION, seqId)
 		x.Write(oprot)
 		oprot.WriteMessageEnd()
 		oprot.Flush()
 		return true, err2
-	} else {
-		result.Success = retval
 	}
 	if err2 = oprot.WriteMessageBegin("notiToTopic", thrift.REPLY, seqId); err2 != nil {
 		err = err2
@@ -1364,26 +1352,11 @@ func (p *FCMServiceNotiToDeviceTokenArgs) String() string {
 	return fmt.Sprintf("FCMServiceNotiToDeviceTokenArgs(%+v)", *p)
 }
 
-// Attributes:
-//  - Success
 type FCMServiceNotiToDeviceTokenResult struct {
-	Success *TResponse `thrift:"success,0" json:"success,omitempty"`
 }
 
 func NewFCMServiceNotiToDeviceTokenResult() *FCMServiceNotiToDeviceTokenResult {
 	return &FCMServiceNotiToDeviceTokenResult{}
-}
-
-var FCMServiceNotiToDeviceTokenResult_Success_DEFAULT *TResponse
-
-func (p *FCMServiceNotiToDeviceTokenResult) GetSuccess() *TResponse {
-	if !p.IsSetSuccess() {
-		return FCMServiceNotiToDeviceTokenResult_Success_DEFAULT
-	}
-	return p.Success
-}
-func (p *FCMServiceNotiToDeviceTokenResult) IsSetSuccess() bool {
-	return p.Success != nil
 }
 
 func (p *FCMServiceNotiToDeviceTokenResult) Read(iprot thrift.TProtocol) error {
@@ -1399,15 +1372,8 @@ func (p *FCMServiceNotiToDeviceTokenResult) Read(iprot thrift.TProtocol) error {
 		if fieldTypeId == thrift.STOP {
 			break
 		}
-		switch fieldId {
-		case 0:
-			if err := p.readField0(iprot); err != nil {
-				return err
-			}
-		default:
-			if err := iprot.Skip(fieldTypeId); err != nil {
-				return err
-			}
+		if err := iprot.Skip(fieldTypeId); err != nil {
+			return err
 		}
 		if err := iprot.ReadFieldEnd(); err != nil {
 			return err
@@ -1419,20 +1385,9 @@ func (p *FCMServiceNotiToDeviceTokenResult) Read(iprot thrift.TProtocol) error {
 	return nil
 }
 
-func (p *FCMServiceNotiToDeviceTokenResult) readField0(iprot thrift.TProtocol) error {
-	p.Success = &TResponse{}
-	if err := p.Success.Read(iprot); err != nil {
-		return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.Success), err)
-	}
-	return nil
-}
-
 func (p *FCMServiceNotiToDeviceTokenResult) Write(oprot thrift.TProtocol) error {
 	if err := oprot.WriteStructBegin("notiToDeviceToken_result"); err != nil {
 		return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err)
-	}
-	if err := p.writeField0(oprot); err != nil {
-		return err
 	}
 	if err := oprot.WriteFieldStop(); err != nil {
 		return thrift.PrependError("write field stop error: ", err)
@@ -1441,21 +1396,6 @@ func (p *FCMServiceNotiToDeviceTokenResult) Write(oprot thrift.TProtocol) error 
 		return thrift.PrependError("write struct stop error: ", err)
 	}
 	return nil
-}
-
-func (p *FCMServiceNotiToDeviceTokenResult) writeField0(oprot thrift.TProtocol) (err error) {
-	if p.IsSetSuccess() {
-		if err := oprot.WriteFieldBegin("success", thrift.STRUCT, 0); err != nil {
-			return thrift.PrependError(fmt.Sprintf("%T write field begin error 0:success: ", p), err)
-		}
-		if err := p.Success.Write(oprot); err != nil {
-			return thrift.PrependError(fmt.Sprintf("%T error writing struct: ", p.Success), err)
-		}
-		if err := oprot.WriteFieldEnd(); err != nil {
-			return thrift.PrependError(fmt.Sprintf("%T write field end error 0:success: ", p), err)
-		}
-	}
-	return err
 }
 
 func (p *FCMServiceNotiToDeviceTokenResult) String() string {
@@ -1599,26 +1539,11 @@ func (p *FCMServiceNotiToPhoneArgs) String() string {
 	return fmt.Sprintf("FCMServiceNotiToPhoneArgs(%+v)", *p)
 }
 
-// Attributes:
-//  - Success
 type FCMServiceNotiToPhoneResult struct {
-	Success *TResponse `thrift:"success,0" json:"success,omitempty"`
 }
 
 func NewFCMServiceNotiToPhoneResult() *FCMServiceNotiToPhoneResult {
 	return &FCMServiceNotiToPhoneResult{}
-}
-
-var FCMServiceNotiToPhoneResult_Success_DEFAULT *TResponse
-
-func (p *FCMServiceNotiToPhoneResult) GetSuccess() *TResponse {
-	if !p.IsSetSuccess() {
-		return FCMServiceNotiToPhoneResult_Success_DEFAULT
-	}
-	return p.Success
-}
-func (p *FCMServiceNotiToPhoneResult) IsSetSuccess() bool {
-	return p.Success != nil
 }
 
 func (p *FCMServiceNotiToPhoneResult) Read(iprot thrift.TProtocol) error {
@@ -1634,15 +1559,8 @@ func (p *FCMServiceNotiToPhoneResult) Read(iprot thrift.TProtocol) error {
 		if fieldTypeId == thrift.STOP {
 			break
 		}
-		switch fieldId {
-		case 0:
-			if err := p.readField0(iprot); err != nil {
-				return err
-			}
-		default:
-			if err := iprot.Skip(fieldTypeId); err != nil {
-				return err
-			}
+		if err := iprot.Skip(fieldTypeId); err != nil {
+			return err
 		}
 		if err := iprot.ReadFieldEnd(); err != nil {
 			return err
@@ -1654,20 +1572,9 @@ func (p *FCMServiceNotiToPhoneResult) Read(iprot thrift.TProtocol) error {
 	return nil
 }
 
-func (p *FCMServiceNotiToPhoneResult) readField0(iprot thrift.TProtocol) error {
-	p.Success = &TResponse{}
-	if err := p.Success.Read(iprot); err != nil {
-		return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.Success), err)
-	}
-	return nil
-}
-
 func (p *FCMServiceNotiToPhoneResult) Write(oprot thrift.TProtocol) error {
 	if err := oprot.WriteStructBegin("notiToPhone_result"); err != nil {
 		return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err)
-	}
-	if err := p.writeField0(oprot); err != nil {
-		return err
 	}
 	if err := oprot.WriteFieldStop(); err != nil {
 		return thrift.PrependError("write field stop error: ", err)
@@ -1676,21 +1583,6 @@ func (p *FCMServiceNotiToPhoneResult) Write(oprot thrift.TProtocol) error {
 		return thrift.PrependError("write struct stop error: ", err)
 	}
 	return nil
-}
-
-func (p *FCMServiceNotiToPhoneResult) writeField0(oprot thrift.TProtocol) (err error) {
-	if p.IsSetSuccess() {
-		if err := oprot.WriteFieldBegin("success", thrift.STRUCT, 0); err != nil {
-			return thrift.PrependError(fmt.Sprintf("%T write field begin error 0:success: ", p), err)
-		}
-		if err := p.Success.Write(oprot); err != nil {
-			return thrift.PrependError(fmt.Sprintf("%T error writing struct: ", p.Success), err)
-		}
-		if err := oprot.WriteFieldEnd(); err != nil {
-			return thrift.PrependError(fmt.Sprintf("%T write field end error 0:success: ", p), err)
-		}
-	}
-	return err
 }
 
 func (p *FCMServiceNotiToPhoneResult) String() string {
@@ -1870,26 +1762,11 @@ func (p *FCMServiceNotiToTopicArgs) String() string {
 	return fmt.Sprintf("FCMServiceNotiToTopicArgs(%+v)", *p)
 }
 
-// Attributes:
-//  - Success
 type FCMServiceNotiToTopicResult struct {
-	Success *TResponse `thrift:"success,0" json:"success,omitempty"`
 }
 
 func NewFCMServiceNotiToTopicResult() *FCMServiceNotiToTopicResult {
 	return &FCMServiceNotiToTopicResult{}
-}
-
-var FCMServiceNotiToTopicResult_Success_DEFAULT *TResponse
-
-func (p *FCMServiceNotiToTopicResult) GetSuccess() *TResponse {
-	if !p.IsSetSuccess() {
-		return FCMServiceNotiToTopicResult_Success_DEFAULT
-	}
-	return p.Success
-}
-func (p *FCMServiceNotiToTopicResult) IsSetSuccess() bool {
-	return p.Success != nil
 }
 
 func (p *FCMServiceNotiToTopicResult) Read(iprot thrift.TProtocol) error {
@@ -1905,15 +1782,8 @@ func (p *FCMServiceNotiToTopicResult) Read(iprot thrift.TProtocol) error {
 		if fieldTypeId == thrift.STOP {
 			break
 		}
-		switch fieldId {
-		case 0:
-			if err := p.readField0(iprot); err != nil {
-				return err
-			}
-		default:
-			if err := iprot.Skip(fieldTypeId); err != nil {
-				return err
-			}
+		if err := iprot.Skip(fieldTypeId); err != nil {
+			return err
 		}
 		if err := iprot.ReadFieldEnd(); err != nil {
 			return err
@@ -1925,20 +1795,9 @@ func (p *FCMServiceNotiToTopicResult) Read(iprot thrift.TProtocol) error {
 	return nil
 }
 
-func (p *FCMServiceNotiToTopicResult) readField0(iprot thrift.TProtocol) error {
-	p.Success = &TResponse{}
-	if err := p.Success.Read(iprot); err != nil {
-		return thrift.PrependError(fmt.Sprintf("%T error reading struct: ", p.Success), err)
-	}
-	return nil
-}
-
 func (p *FCMServiceNotiToTopicResult) Write(oprot thrift.TProtocol) error {
 	if err := oprot.WriteStructBegin("notiToTopic_result"); err != nil {
 		return thrift.PrependError(fmt.Sprintf("%T write struct begin error: ", p), err)
-	}
-	if err := p.writeField0(oprot); err != nil {
-		return err
 	}
 	if err := oprot.WriteFieldStop(); err != nil {
 		return thrift.PrependError("write field stop error: ", err)
@@ -1947,21 +1806,6 @@ func (p *FCMServiceNotiToTopicResult) Write(oprot thrift.TProtocol) error {
 		return thrift.PrependError("write struct stop error: ", err)
 	}
 	return nil
-}
-
-func (p *FCMServiceNotiToTopicResult) writeField0(oprot thrift.TProtocol) (err error) {
-	if p.IsSetSuccess() {
-		if err := oprot.WriteFieldBegin("success", thrift.STRUCT, 0); err != nil {
-			return thrift.PrependError(fmt.Sprintf("%T write field begin error 0:success: ", p), err)
-		}
-		if err := p.Success.Write(oprot); err != nil {
-			return thrift.PrependError(fmt.Sprintf("%T error writing struct: ", p.Success), err)
-		}
-		if err := oprot.WriteFieldEnd(); err != nil {
-			return thrift.PrependError(fmt.Sprintf("%T write field end error 0:success: ", p), err)
-		}
-	}
-	return err
 }
 
 func (p *FCMServiceNotiToTopicResult) String() string {

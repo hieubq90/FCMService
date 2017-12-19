@@ -159,9 +159,9 @@ func (p *TKeyValue) String() string {
 type TNotificationPayload struct {
 	Title       string       `thrift:"title,1" json:"title"`
 	Body        string       `thrift:"body,2" json:"body"`
-	Icon        *string      `thrift:"icon,3" json:"icon,omitempty"`
+	Icon        string       `thrift:"icon,3" json:"icon"`
 	Data        []*TKeyValue `thrift:"data,4" json:"data,omitempty"`
-	ClickAction *string      `thrift:"click_action,5" json:"click_action,omitempty"`
+	ClickAction string       `thrift:"click_action,5" json:"click_action"`
 }
 
 func NewTNotificationPayload() *TNotificationPayload {
@@ -176,13 +176,8 @@ func (p *TNotificationPayload) GetBody() string {
 	return p.Body
 }
 
-var TNotificationPayload_Icon_DEFAULT string
-
 func (p *TNotificationPayload) GetIcon() string {
-	if !p.IsSetIcon() {
-		return TNotificationPayload_Icon_DEFAULT
-	}
-	return *p.Icon
+	return p.Icon
 }
 
 var TNotificationPayload_Data_DEFAULT []*TKeyValue
@@ -191,24 +186,11 @@ func (p *TNotificationPayload) GetData() []*TKeyValue {
 	return p.Data
 }
 
-var TNotificationPayload_ClickAction_DEFAULT string
-
 func (p *TNotificationPayload) GetClickAction() string {
-	if !p.IsSetClickAction() {
-		return TNotificationPayload_ClickAction_DEFAULT
-	}
-	return *p.ClickAction
+	return p.ClickAction
 }
-func (p *TNotificationPayload) IsSetIcon() bool {
-	return p.Icon != nil
-}
-
 func (p *TNotificationPayload) IsSetData() bool {
 	return p.Data != nil
-}
-
-func (p *TNotificationPayload) IsSetClickAction() bool {
-	return p.ClickAction != nil
 }
 
 func (p *TNotificationPayload) Read(iprot thrift.TProtocol) error {
@@ -282,7 +264,7 @@ func (p *TNotificationPayload) readField3(iprot thrift.TProtocol) error {
 	if v, err := iprot.ReadString(); err != nil {
 		return thrift.PrependError("error reading field 3: ", err)
 	} else {
-		p.Icon = &v
+		p.Icon = v
 	}
 	return nil
 }
@@ -311,7 +293,7 @@ func (p *TNotificationPayload) readField5(iprot thrift.TProtocol) error {
 	if v, err := iprot.ReadString(); err != nil {
 		return thrift.PrependError("error reading field 5: ", err)
 	} else {
-		p.ClickAction = &v
+		p.ClickAction = v
 	}
 	return nil
 }
@@ -371,16 +353,14 @@ func (p *TNotificationPayload) writeField2(oprot thrift.TProtocol) (err error) {
 }
 
 func (p *TNotificationPayload) writeField3(oprot thrift.TProtocol) (err error) {
-	if p.IsSetIcon() {
-		if err := oprot.WriteFieldBegin("icon", thrift.STRING, 3); err != nil {
-			return thrift.PrependError(fmt.Sprintf("%T write field begin error 3:icon: ", p), err)
-		}
-		if err := oprot.WriteString(string(*p.Icon)); err != nil {
-			return thrift.PrependError(fmt.Sprintf("%T.icon (3) field write error: ", p), err)
-		}
-		if err := oprot.WriteFieldEnd(); err != nil {
-			return thrift.PrependError(fmt.Sprintf("%T write field end error 3:icon: ", p), err)
-		}
+	if err := oprot.WriteFieldBegin("icon", thrift.STRING, 3); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T write field begin error 3:icon: ", p), err)
+	}
+	if err := oprot.WriteString(string(p.Icon)); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T.icon (3) field write error: ", p), err)
+	}
+	if err := oprot.WriteFieldEnd(); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T write field end error 3:icon: ", p), err)
 	}
 	return err
 }
@@ -409,16 +389,14 @@ func (p *TNotificationPayload) writeField4(oprot thrift.TProtocol) (err error) {
 }
 
 func (p *TNotificationPayload) writeField5(oprot thrift.TProtocol) (err error) {
-	if p.IsSetClickAction() {
-		if err := oprot.WriteFieldBegin("click_action", thrift.STRING, 5); err != nil {
-			return thrift.PrependError(fmt.Sprintf("%T write field begin error 5:click_action: ", p), err)
-		}
-		if err := oprot.WriteString(string(*p.ClickAction)); err != nil {
-			return thrift.PrependError(fmt.Sprintf("%T.click_action (5) field write error: ", p), err)
-		}
-		if err := oprot.WriteFieldEnd(); err != nil {
-			return thrift.PrependError(fmt.Sprintf("%T write field end error 5:click_action: ", p), err)
-		}
+	if err := oprot.WriteFieldBegin("click_action", thrift.STRING, 5); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T write field begin error 5:click_action: ", p), err)
+	}
+	if err := oprot.WriteString(string(p.ClickAction)); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T.click_action (5) field write error: ", p), err)
+	}
+	if err := oprot.WriteFieldEnd(); err != nil {
+		return thrift.PrependError(fmt.Sprintf("%T write field end error 5:click_action: ", p), err)
 	}
 	return err
 }

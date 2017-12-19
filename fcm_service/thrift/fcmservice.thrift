@@ -8,9 +8,9 @@ struct TKeyValue {
 struct TNotificationPayload {
   1: string title;
   2: string body;
-  3: optional string icon;
+  3: string icon;
   4: optional list<TKeyValue> data;
-  5: optional string click_action;
+  5: string click_action;
 }
 
 struct TDataPayload {
@@ -36,9 +36,9 @@ service FCMService {
 
   bool addListDeviceToken(1: string phone, 2: TDeviceTokenList tokenList);
 
-  TResponse notiToDeviceToken(1: TFCMMessage message, 2: TDeviceToken deviceToken);
+  void notiToDeviceToken(1: TFCMMessage message, 2: TDeviceToken deviceToken);
 
-  TResponse notiToPhone(1: TFCMMessage message, 2: string phone);
+  void notiToPhone(1: TFCMMessage message, 2: string phone);
 
-  TResponse notiToTopic(1: string topic, 3: string condition, 4: TFCMMessage message);
+  void notiToTopic(1: string topic, 3: string condition, 4: TFCMMessage message);
 }

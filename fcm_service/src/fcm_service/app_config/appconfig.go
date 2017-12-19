@@ -1,10 +1,11 @@
 package app_config
 
 import (
-	"os"
 	"fmt"
-	"path/filepath"
 	"io/ioutil"
+	"os"
+	"path/filepath"
+
 	"gopkg.in/yaml.v2"
 )
 
@@ -17,7 +18,8 @@ type AppConfiguration struct {
 	Protocol        string `yaml:"protocol"`
 	Framed          bool   `yaml:"framed"`
 	Buffered        bool   `yaml:"buffered"`
-	FCMUrl          string `yaml:"fcm_url"`
+	FCM_URL         string `yaml:"fcm_url"`
+	FCM_API_KEY     string `yaml:"fcm_api_key"`
 	ProxyHost       string `yaml:"proxy_host"`
 	ProxyPort       int    `yaml:"proxy_port"`
 	Proxy           bool   `yaml:"proxy"`
@@ -27,16 +29,16 @@ var AppConfig *AppConfiguration
 
 func init() {
 	AppConfig = &AppConfiguration{
-		Host: "0.0.0.0",
-		Port: 2701,
+		Host:            "0.0.0.0",
+		Port:            2701,
 		RuntimeMaxProcs: 4,
-		Secure: false,
-		Protocol: "binary",
-		Framed: false,
-		Buffered: false,
-		ProxyHost: "",
-		ProxyPort: 0,
-		Proxy: false,
+		Secure:          false,
+		Protocol:        "binary",
+		Framed:          false,
+		Buffered:        false,
+		ProxyHost:       "",
+		ProxyPort:       0,
+		Proxy:           false,
 	}
 }
 

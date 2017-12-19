@@ -10,6 +10,7 @@ protocol: binary
 framed: false
 buffered: false
 fcm_url: https://fcm.googleapis.com/fcm/send
+fcm_api_key: AIzaSyA8MQePbTx0CEWDC_LJASBbhipqoy6MSZE
 proxy_host: http://10.40.80.19
 proxy_port: 3128
 proxy: true

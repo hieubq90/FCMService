@@ -22,9 +22,9 @@ func Usage() {
 	fmt.Fprintln(os.Stderr, "\nFunctions:")
 	fmt.Fprintln(os.Stderr, "  bool addDeviceToken(string phone, TDeviceToken deviceToken)")
 	fmt.Fprintln(os.Stderr, "  bool addListDeviceToken(string phone, TDeviceTokenList tokenList)")
-	fmt.Fprintln(os.Stderr, "  TResponse notiToDeviceToken(TFCMMessage message, TDeviceToken deviceToken)")
-	fmt.Fprintln(os.Stderr, "  TResponse notiToPhone(TFCMMessage message, string phone)")
-	fmt.Fprintln(os.Stderr, "  TResponse notiToTopic(string topic, string condition, TFCMMessage message)")
+	fmt.Fprintln(os.Stderr, "  void notiToDeviceToken(TFCMMessage message, TDeviceToken deviceToken)")
+	fmt.Fprintln(os.Stderr, "  void notiToPhone(TFCMMessage message, string phone)")
+	fmt.Fprintln(os.Stderr, "  void notiToTopic(string topic, string condition, TFCMMessage message)")
 	fmt.Fprintln(os.Stderr)
 	os.Exit(0)
 }
