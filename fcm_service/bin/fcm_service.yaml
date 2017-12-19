@@ -1,0 +1,15 @@
+################
+# Base Setting #
+################
+host: 0.0.0.0
+port: 27101
+maxprocs: 8
+secure: false
+# protocol: binary | compact | simplejson | json
+protocol: binary
+framed: false
+buffered: false
+fcm_url: https://fcm.googleapis.com/fcm/send
+proxy_host: http://10.40.80.19
+proxy_port: 3128
+proxy: true
